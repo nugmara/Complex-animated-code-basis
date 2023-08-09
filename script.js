@@ -15,9 +15,11 @@ class Line {
     this.history = [{ x: this.x, y: this.y }];
     this.lineWidth = Math.floor(Math.random() * 15 + 1);
     this.hue = Math.floor(Math.random() * 360);
-    this.maxLength = 10;
-    this.speedX = 10;
-    this.speedY = 5;
+    this.maxLength = Math.floor(Math.random() * 150 + 10);
+    this.speedX = Math.random() * 1 - 0.5;
+    this.speedY = 4;
+    this.lifeSpan = this.maxLength * 3;
+    this.timer = 0;
   }
   draw(context) {
     context.strokeStyle = "hsl(" + this.hue + ", 100%, 50%)";
@@ -30,17 +32,31 @@ class Line {
     context.stroke();
   }
   update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.history.push({ x: this.x, y: this.y });
-    if (this.history.length > this.maxLength) {
-      this.history.shift();
+    this.timer++;
+    if (this.timer < this.lifeSpan) {
+        this.x += this.speedX + Math.random() * 20 - 10;
+        this.y += this.speedY + Math.random() * 20 - 10;
+        this.history.push({ x: this.x, y: this.y });
+        if (this.history.length > this.maxLength) {
+          this.history.shift();
+        }
+    } else if (this.history.length <= 1){
+        this.reset()
+    } else {
+        this.history.shift()
     }
   }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.history = [{ x: this.x, y: this.y }];
+    this.timer = 0;
+  }
+
 }
 
 const linesArray = [];
-const numberOfLines = 1;
+const numberOfLines = 20;
 for (let i = 0; i < numberOfLines; i++) {
   linesArray.push(new Line(canvas));
 }
