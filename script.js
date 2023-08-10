@@ -1,10 +1,16 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 850;
+canvas.width = 512;
+canvas.height = 512;
 
 // global settings
 ctx.lineWidth = 10;
+
+// canvas shadows 
+ctx.shadowOffsetX = 2;
+ctx.shadowOffsetY = 2;
+ctx.shadowColor = "white";
+// gradients
 const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 gradient1.addColorStop("0.2", "pink");
 gradient1.addColorStop("0.3", "red");
@@ -22,10 +28,15 @@ const gradient2 = ctx.createRadialGradient(
   400
 );
 gradient2.addColorStop("0.4", "green");
-gradient2.addColorStop("0.6", "pink");
+gradient2.addColorStop("0.5", "pink");
 gradient2.addColorStop("0.8", "blue");
 
-ctx.strokeStyle = gradient2;
+// canvas pattern
+const patternImage = document.getElementById("patternImage");
+const pattern1 = ctx.createPattern(patternImage, "no-repeat");
+
+
+ctx.strokeStyle = gradient1;
 
 class Line {
   constructor(canvas) {
