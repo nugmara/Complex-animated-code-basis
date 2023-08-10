@@ -9,7 +9,7 @@ ctx.lineWidth = 10;
 // canvas shadows 
 ctx.shadowOffsetX = 2;
 ctx.shadowOffsetY = 2;
-ctx.shadowColor = "white";
+ctx.shadowColor = "black";
 // gradients
 const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 gradient1.addColorStop("0.2", "pink");
@@ -36,7 +36,7 @@ const patternImage = document.getElementById("patternImage");
 const pattern1 = ctx.createPattern(patternImage, "no-repeat");
 
 
-ctx.strokeStyle = gradient1;
+ctx.strokeStyle = pattern1;
 
 class Line {
   constructor(canvas) {
@@ -50,10 +50,12 @@ class Line {
     this.speedX = Math.random() * 1 - 0.5;
     this.speedY = 4;
     this.lifeSpan = this.maxLength * 3;
+    this.breakPoint = this.lifeSpan * 0.85
     this.timer = 0;
     this.angle = 0;
     this.curve = 0.1;
-    this.vc = 0.25
+    this.va = Math.random() * 0.5 - 0.25
+    this.vc = Math.random() * 0.4 - 0.2;
   }
   draw(context) {
     // context.strokeStyle = "hsl(" + this.hue + ", 100%, 50%)";
@@ -67,11 +69,14 @@ class Line {
   }
   update() {
     this.timer++;
-    this.angle += 0.1
+    this.angle += this.va
     this.curve += this.vc
     if (this.timer < this.lifeSpan) {
+      if (this.timer > this.breakPoint) {
+        this.va *= -1.12
+      }
       this.x += Math.sin(this.angle) * this.curve
-      this.y += this.speedY
+      this.y += Math.cos(this.angle) * this.curve
       this.history.push({ x: this.x, y: this.y });
       if (this.history.length > this.maxLength) {
         this.history.shift();
@@ -89,6 +94,8 @@ class Line {
     this.timer = 0;
     this.angle = 0;
     this.curve = 0;
+    this.va = Math.random() * 0.5 - 0.25
+
   }
 }
 
