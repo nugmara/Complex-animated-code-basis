@@ -4,7 +4,7 @@
 
 <div align="center"> 
 <img src="./images/drawing-animated-lines.gif"/>
-<div/>
+</div>
 
 This JavaScript code demonstrates how to create an HTML5 canvas and draw animated lines with various colors and patterns. It uses the Canvas 2D API to achieve this effect.
 
